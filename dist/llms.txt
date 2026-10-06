@@ -1,0 +1,17 @@
+# Grupo Quantum
+
+Grupo Quantum es una empresa argentina que provee equipamiento, infraestructura y servicios informáticos para empresas y organismos.
+
+## Oferta
+
+- Productos: equipos para puestos de trabajo, impresión y digitalización, infraestructura y energía, conectividad y colaboración.
+- Servicios: soporte y mantenimiento, redes, ciberseguridad, continuidad energética, telefonía IP y videoconferencia.
+- Sectores: energía y petróleo, farmacéutica y alimentos, logística y retail, universidades y sector público.
+
+## Contacto
+
+- Correo: contacto@grupoquantum.ar
+- Teléfono: +54 11 5796 1639
+- Dirección: Bacacay 1757, 2.º C, Ciudad Autónoma de Buenos Aires, Argentina.
+
+Más información: https://www.grupoquantum.ar/
