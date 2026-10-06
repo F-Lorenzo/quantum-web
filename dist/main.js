@@ -95,14 +95,51 @@ nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () =
 
 const motionControl = document.querySelector("[data-motion-control]");
 const hero = document.querySelector(".hero");
+const sceneShift = hero?.querySelector(".hero__scene-shift");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+let parallaxFrame;
+
+function setHeroParallax(nextState) {
+  if (!hero || !sceneShift) return;
+  cancelAnimationFrame(parallaxFrame);
+  parallaxFrame = requestAnimationFrame(() => {
+    hero.style.setProperty("--scene-x", nextState.x);
+    hero.style.setProperty("--scene-y", nextState.y);
+    hero.style.setProperty("--scene-rotate-x", nextState.rotateX);
+    hero.style.setProperty("--scene-rotate-y", nextState.rotateY);
+  });
+}
+
+function resetHeroParallax() {
+  setHeroParallax({ x: "0px", y: "0px", rotateX: "0deg", rotateY: "0deg" });
+}
+
+if (hero && finePointer.matches && !reducedMotion.matches) {
+  hero.addEventListener("pointermove", (event) => {
+    if (hero.classList.contains("is-motion-paused")) return;
+    const bounds = hero.getBoundingClientRect();
+    const horizontal = (event.clientX - bounds.left) / bounds.width - .5;
+    const vertical = (event.clientY - bounds.top) / bounds.height - .5;
+    setHeroParallax({
+      x: `${(-horizontal * 18).toFixed(2)}px`,
+      y: `${(-vertical * 12).toFixed(2)}px`,
+      rotateX: `${(vertical * 1.1).toFixed(2)}deg`,
+      rotateY: `${(-horizontal * 1.4).toFixed(2)}deg`,
+    });
+  });
+  hero.addEventListener("pointerleave", resetHeroParallax);
+}
+
 motionControl?.addEventListener("click", () => {
   const paused = hero.classList.toggle("is-motion-paused");
   motionControl.setAttribute("aria-pressed", String(paused));
   motionControl.textContent = paused ? "Reproducir movimiento" : "Pausar movimiento";
+  if (paused) resetHeroParallax();
 });
 
 const revealTargets = document.querySelectorAll("[data-reveal]");
-if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+if ("IntersectionObserver" in window && !reducedMotion.matches) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
