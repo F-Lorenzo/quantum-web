@@ -67,6 +67,17 @@ document.querySelectorAll("[data-site-footer]").forEach((mount) => {
     </footer>`;
 });
 
+const whatsappNumber = "541157961639";
+const whatsappGreeting = "Hola Grupo Quantum, necesito asesoramiento.";
+
+document.body.insertAdjacentHTML("beforeend", `
+  <a class="whatsapp-float" href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappGreeting)}" target="_blank" rel="noopener noreferrer" aria-label="Escribir a Grupo Quantum por WhatsApp">
+    <span class="whatsapp-float__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" focusable="false"><path d="M19.6 4.4A10.5 10.5 0 0 0 3.2 17.1L2 22l5.1-1.2A10.5 10.5 0 1 0 19.6 4.4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8.6 7.7c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5 0 .7l-.5.7c-.1.2-.1.4 0 .6.5.8 1.2 1.5 2 2 .2.1.4.1.6 0l.7-.5c.2-.1.5-.2.7 0l1.9.8c.2.1.4.3.4.5v.5c0 .3 0 .5-.5.7-.7.3-1.5.3-2.2.1-1.3-.4-2.8-1.4-4-2.7-1.3-1.3-2.3-2.8-2.7-4.1-.2-.7-.2-1.5.1-2.2Z" fill="currentColor"/></svg>
+    </span>
+    <span class="whatsapp-float__message">¿Necesitás asesoramiento? <strong>Escribime</strong></span>
+  </a>`);
+
 const header = document.querySelector(".site-header");
 const toggle = document.querySelector("[data-nav-toggle]");
 const nav = document.querySelector("[data-site-nav]");
@@ -152,3 +163,29 @@ if ("IntersectionObserver" in window && !reducedMotion.matches) {
 } else {
   revealTargets.forEach((target) => target.classList.add("is-visible"));
 }
+
+const contactForm = document.querySelector("[data-contact-form]");
+const contactFormStatus = document.querySelector("[data-contact-form-status]");
+
+contactForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!contactForm.reportValidity()) return;
+
+  const values = new FormData(contactForm);
+  const value = (name) => String(values.get(name) ?? "").trim();
+  const message = [
+    "Hola Grupo Quantum, necesito asesoramiento.",
+    "",
+    `Nombre: ${value("nombre")} ${value("apellido")}`,
+    `Teléfono: ${value("telefono")}`,
+    `Email: ${value("email")}`,
+    `Empresa: ${value("empresa")}`,
+    "",
+    "Consulta:",
+    value("mensaje"),
+  ].join("\n");
+  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank", "noopener,noreferrer");
+  contactFormStatus.textContent = "Abrimos WhatsApp con los datos de tu consulta.";
+});
