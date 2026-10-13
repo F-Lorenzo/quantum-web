@@ -9,11 +9,17 @@ const navItems = [
 
 const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-function brandMarkup() {
+function brandMarkup(variant = "footer") {
+  const isHeader = variant === "header";
+  const markClass = isHeader ? "brand-mark brand-mark--header" : "brand-mark";
+  const markSource = isHeader ? "assets/logo-monograma-quantum.png" : "assets/logo-grupo-quantum.jpg";
+  const markDimensions = isHeader ? 'width="1254" height="1254"' : 'width="298" height="263"';
+  const name = isHeader ? "" : '<span class="brand-name">Grupo Quantum</span>';
+
   return `
-    <a class="brand" href="index.html" aria-label="Grupo Quantum, inicio">
-      <span class="brand-mark"><img src="assets/logo-grupo-quantum.jpg" alt="" width="298" height="263" /></span>
-      <span class="brand-name">Grupo Quantum</span>
+    <a class="brand${isHeader ? " brand--header" : ""}" href="index.html" aria-label="Grupo Quantum, inicio">
+      <span class="${markClass}"><img src="${markSource}" alt="" ${markDimensions} /></span>
+      ${name}
     </a>`;
 }
 
@@ -24,7 +30,7 @@ document.querySelectorAll("[data-site-header]").forEach((mount) => {
   mount.innerHTML = `
     <header class="site-header ${currentPage === "index.html" ? "site-header--overlay" : ""}">
       <div class="container header-inner">
-        ${brandMarkup()}
+        ${brandMarkup("header")}
         <button class="nav-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" data-nav-toggle><span></span><span></span></button>
         <nav class="site-nav" aria-label="Navegación principal" data-site-nav>
           ${links}
