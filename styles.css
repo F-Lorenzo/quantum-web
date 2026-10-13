@@ -231,8 +231,31 @@ p { line-height: 1.7; }
 .values-grid article { min-height: 13rem; padding: 1.4rem; background: var(--white); }
 .values-grid h3 { margin-top: 0; }
 .values-grid p { margin-bottom: 0; color: var(--muted); font-size: .83rem; }
-.brands-cloud { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 3rem; }
-.brands-cloud span { padding: .75rem .9rem; border: 1px solid var(--line); border-radius: .4rem; color: #34506d; background: var(--white); font-size: .82rem; font-weight: 700; }
+.brands-carousel { --brands-gap: clamp(.85rem, 2vw, 1.35rem); position: relative; margin-top: 3rem; }
+.brands-carousel__viewport { overflow: hidden; padding: .5rem 0; border-radius: .85rem; }
+.brands-carousel__rail { display: flex; width: max-content; animation: brands-carousel-scroll 54s linear infinite; will-change: transform; }
+.brands-carousel__sequence { display: flex; width: max-content; gap: var(--brands-gap); padding: 0 var(--brands-gap) 0 0; margin: 0; list-style: none; }
+.brands-carousel__item { flex: 0 0 auto; }
+.brand-logo { display: block; width: clamp(7.5rem, 12vw, 10.25rem); aspect-ratio: 1; border: 1px solid var(--line); border-radius: .7rem; background-color: var(--white); background-image: url("assets/images/marcas-logos-sprite.png"); background-repeat: no-repeat; background-position: var(--logo-x, 0%) var(--logo-y, 0%); background-size: 300% 600%; box-shadow: 0 .7rem 1.5rem rgba(9, 43, 79, .06); }
+.brand-logo--lenovo { --logo-x: 0%; --logo-y: 0%; }
+.brand-logo--hp { --logo-x: 50%; --logo-y: 0%; }
+.brand-logo--hpe { --logo-x: 100%; --logo-y: 0%; }
+.brand-logo--apc { --logo-x: 0%; --logo-y: 20%; }
+.brand-logo--asus { --logo-x: 50%; --logo-y: 20%; }
+.brand-logo--kodak-alaris { --logo-x: 100%; --logo-y: 20%; }
+.brand-logo--epson { --logo-x: 0%; --logo-y: 40%; }
+.brand-logo--logitech { --logo-x: 50%; --logo-y: 40%; }
+.brand-logo--samsung { --logo-x: 100%; --logo-y: 40%; }
+.brand-logo--lg { --logo-x: 0%; --logo-y: 60%; }
+.brand-logo--motorola { --logo-x: 50%; --logo-y: 60%; }
+.brand-logo--tp-link { --logo-x: 100%; --logo-y: 60%; }
+.brand-logo--grandstream { --logo-x: 0%; --logo-y: 80%; }
+.brand-logo--genius { --logo-x: 50%; --logo-y: 80%; }
+.brand-logo--hp-poly { --logo-x: 100%; --logo-y: 80%; }
+.brand-logo--qnap { --logo-x: 0%; --logo-y: 100%; }
+.brand-logo--gabitel { --logo-x: 50%; --logo-y: 100%; }
+.brand-logo--unifi { --logo-x: 100%; --logo-y: 100%; }
+.brands-carousel:hover .brands-carousel__rail, .brands-carousel:focus-within .brands-carousel__rail { animation-play-state: paused; }
 .contact-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(18rem, .9fr); gap: clamp(2rem, 8vw, 8rem); }
 .contact-layout h2 { margin-bottom: 1.3rem; }
 .contact-layout > div > p { max-width: 34rem; color: var(--muted); }
@@ -276,6 +299,7 @@ p { line-height: 1.7; }
 
 @keyframes scene-flow { from { transform: scale(1.08) translate3d(1.4%, 0, 0); } to { transform: scale(1.015) translate3d(-1%, -1%, 0); } }
 @keyframes particle-float { 0% { opacity: .08; transform: translate3d(0, 0, 0) scale(.72); } 48% { opacity: .62; } 100% { opacity: .12; transform: translate3d(var(--drift), calc(var(--drift) * -1.4), 0) scale(1.18); } }
+@keyframes brands-carousel-scroll { to { transform: translate3d(-50%, 0, 0); } }
 
 @media (max-width: 70rem) {
   .site-nav { gap: 1rem; }
@@ -342,4 +366,9 @@ p { line-height: 1.7; }
   .hero__particle { animation: none; opacity: .16; }
   .hero__scene-shift { transform: scale(1.045) !important; }
   [data-reveal] { opacity: 1; transform: none; }
+  .brands-carousel__viewport { overflow-x: auto; scroll-snap-type: x proximity; }
+  .brands-carousel__rail { animation: none !important; transform: none; }
+  .brands-carousel__sequence { padding-right: 0; }
+  .brands-carousel__sequence[aria-hidden="true"] { display: none; }
+  .brand-logo { scroll-snap-align: start; }
 }
