@@ -95,7 +95,7 @@ El cuestionario propone un parcial para el **9 de octubre** y el sitio completo 
 
 **Datos pendientes de confirmar antes de publicar:**
 
-- Si `11-5796-1639` es también el WhatsApp comercial y si la dirección de Bacacay 1757, 2.º C, CABA debe mostrarse públicamente.
+- Si `11-5796-1639` es también el WhatsApp comercial y si la dirección de Bacacay 1757, 2.º C, Ciudad de Buenos Aires debe mostrarse públicamente.
 - Los PDF definitivos de productos y servicios, sus enlaces y quién mantendrá las versiones actualizadas.
 - La relación comercial con cada fabricante y el permiso de uso de sus logos; disponibilidad real de líneas de producto.
 - El alcance exacto de ciberseguridad, inteligencia artificial, entregas nacionales, financiación y soporte posventa.

@@ -45,7 +45,7 @@ document.querySelectorAll("[data-site-footer]").forEach((mount) => {
     <footer class="site-footer">
       <div class="container footer-main">
         <div>
-          ${brandMarkup()}
+          ${brandMarkup("header")}
           <p>Equipamiento, infraestructura y servicios informáticos para empresas y organismos en Argentina.</p>
         </div>
         <div>
@@ -62,7 +62,7 @@ document.querySelectorAll("[data-site-footer]").forEach((mount) => {
           <nav class="footer-nav" aria-label="Datos de contacto">
             <a href="mailto:contacto@grupoquantum.ar">contacto@grupoquantum.ar</a>
             <a href="tel:+541157961639">11 5796 1639</a>
-            <a href="contacto.html">Bacacay 1757, 2.º C, CABA</a>
+            <a href="contacto.html">Bacacay 1757, 2.º C, Ciudad de Buenos Aires</a>
           </nav>
         </div>
       </div>
