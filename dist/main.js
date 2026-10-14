@@ -11,14 +11,14 @@ const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
 function brandMarkup(variant = "footer") {
   const isHeader = variant === "header";
-  const markClass = isHeader ? "brand-mark brand-mark--header" : "brand-mark";
-  const markSource = isHeader ? "assets/logo-monograma-quantum.png" : "assets/logo-grupo-quantum.jpg";
-  const markDimensions = isHeader ? 'width="1254" height="1254"' : 'width="298" height="263"';
-  const name = isHeader ? "" : '<span class="brand-name">Grupo Quantum</span>';
+  const mark = isHeader
+    ? '<span class="brand-mark brand-mark--header"><img src="assets/logo-monograma-quantum-home.png" alt="" width="1254" height="1254" /></span>'
+    : '<span class="brand-mark"><img src="assets/logo-grupo-quantum.jpg" alt="" width="298" height="263" /></span>';
+  const name = isHeader ? '<span class="brand-name brand-name--header">Grupo Quantum</span>' : '<span class="brand-name">Grupo Quantum</span>';
 
   return `
     <a class="brand${isHeader ? " brand--header" : ""}" href="index.html" aria-label="Grupo Quantum, inicio">
-      <span class="${markClass}"><img src="${markSource}" alt="" ${markDimensions} /></span>
+      ${mark}
       ${name}
     </a>`;
 }
@@ -98,6 +98,7 @@ window.addEventListener("scroll", updateHeader, { passive: true });
 
 toggle?.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("is-open");
+  header?.classList.toggle("is-menu-open", isOpen);
   toggle.setAttribute("aria-expanded", String(isOpen));
   toggle.setAttribute("aria-label", isOpen ? "Cerrar menú" : "Abrir menú");
   document.body.classList.toggle("menu-open", isOpen);
@@ -105,6 +106,7 @@ toggle?.addEventListener("click", () => {
 
 nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => {
   nav.classList.remove("is-open");
+  header?.classList.remove("is-menu-open");
   toggle?.setAttribute("aria-expanded", "false");
   toggle?.setAttribute("aria-label", "Abrir menú");
   document.body.classList.remove("menu-open");
