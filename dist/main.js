@@ -175,25 +175,40 @@ if ("IntersectionObserver" in window && !reducedMotion.matches) {
 const contactForm = document.querySelector("[data-contact-form]");
 const contactFormStatus = document.querySelector("[data-contact-form-status]");
 
-contactForm?.addEventListener("submit", (event) => {
+contactForm?.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (!contactForm.reportValidity()) return;
 
-  const values = new FormData(contactForm);
-  const value = (name) => String(values.get(name) ?? "").trim();
-  const message = [
-    "Hola Grupo Quantum, necesito asesoramiento.",
-    "",
-    `Nombre: ${value("nombre")} ${value("apellido")}`,
-    `Teléfono: ${value("telefono")}`,
-    `Email: ${value("email")}`,
-    `Empresa: ${value("empresa")}`,
-    "",
-    "Consulta:",
-    value("mensaje"),
-  ].join("\n");
-  const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  const submitButton = contactForm.querySelector('button[type="submit"]');
+  const defaultLabel = submitButton?.textContent;
+  const formData = new FormData(contactForm);
 
-  window.open(url, "_blank", "noopener,noreferrer");
-  contactFormStatus.textContent = "Abrimos WhatsApp con los datos de tu consulta.";
+  contactFormStatus?.classList.remove("is-error");
+  if (contactFormStatus) contactFormStatus.textContent = "Enviando consulta…";
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Enviando…";
+  }
+
+  try {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+      headers: { Accept: "application/json" },
+    });
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok || !result.success) throw new Error(result.message || "Web3Forms no confirmó el envío.");
+
+    contactForm.reset();
+    if (contactFormStatus) contactFormStatus.textContent = "Gracias. Recibimos tu consulta y te contactaremos a la brevedad.";
+  } catch (error) {
+    contactFormStatus?.classList.add("is-error");
+    if (contactFormStatus) contactFormStatus.textContent = "No pudimos enviar la consulta. Intentá nuevamente o escribinos por WhatsApp.";
+  } finally {
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = defaultLabel || "Enviar consulta";
+    }
+  }
 });
